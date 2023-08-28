@@ -21,6 +21,7 @@ fun formatSimpleDateToString(year: Int, month: Int, dayOfMonth: Int): String {
     val dateFormat = SimpleDateFormat("dd, MM, yyyy", Locale.getDefault())
     return dateFormat.format(calendar.time)
 }
+
 fun formatDateToString(date: String): String {
     val inputDateFormat = SimpleDateFormat("dd, MM, yyyy", Locale.getDefault())
     val parsedDate = inputDateFormat.parse(date)
@@ -28,10 +29,13 @@ fun formatDateToString(date: String): String {
     val outputDateFormat = SimpleDateFormat("EEEE, d, MMMM, yyyy", Locale.getDefault())
     return outputDateFormat.format(parsedDate!!)
 }
+
 fun formatDate(date: Date, format: String): String {
     val dateFormat = SimpleDateFormat(format, Locale.getDefault())
     return dateFormat.format(date)
 }
+
+/*
 fun parseDate(dateString: String): Calendar? {
     val dateFormat = SimpleDateFormat("dd, MM, yyyy", Locale.getDefault())
     return try {
@@ -43,3 +47,4 @@ fun parseDate(dateString: String): Calendar? {
         null
     }
 }
+*/

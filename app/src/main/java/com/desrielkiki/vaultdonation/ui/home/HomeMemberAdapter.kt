@@ -1,6 +1,5 @@
 package com.desrielkiki.vaultdonation.ui.home
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.desrielkiki.vaultdonation.R
 import com.desrielkiki.vaultdonation.data.entity.MemberData
 import com.desrielkiki.vaultdonation.data.helper.MemberDiffCallback
-import com.desrielkiki.vaultdonation.databinding.RowMemberBinding
 import com.desrielkiki.vaultdonation.databinding.RowMemberHomeBinding
 
 class HomeMemberAdapter : RecyclerView.Adapter<HomeMemberAdapter.HomeMemberViewHolder>() {
@@ -52,7 +50,6 @@ class HomeMemberAdapter : RecyclerView.Adapter<HomeMemberAdapter.HomeMemberViewH
     override fun onBindViewHolder(holder: HomeMemberViewHolder, position: Int) {
         val currentMember = memberList[position]
         holder.bind(currentMember)
-        Log.d("home adapter", "$currentMember bind to position $position")
     }
 
     fun setData(memberData: List<MemberData>, startNumber: Int) {

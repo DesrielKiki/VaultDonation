@@ -4,8 +4,8 @@ import com.desrielkiki.vaultdonation.data.entity.MemberData
 
 interface MemberItemClickListener {
     fun onItemLongClick(memberData: MemberData)
-/*
-    fun setSelectionModeActive(isActive: Boolean)
-*/
+    /*
+        fun setSelectionModeActive(isActive: Boolean)
+    */
 
 }

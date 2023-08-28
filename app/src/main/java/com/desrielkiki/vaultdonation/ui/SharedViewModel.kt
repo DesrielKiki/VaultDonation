@@ -10,11 +10,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.desrielkiki.vaultdonation.R
-import com.desrielkiki.vaultdonation.data.entity.DonationData
 import com.desrielkiki.vaultdonation.data.entity.DonationType
 import com.desrielkiki.vaultdonation.data.entity.relation.MemberWithDonationData
 import com.desrielkiki.vaultdonation.ui.util.formatDate
-import com.desrielkiki.vaultdonation.ui.util.parseDate
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -111,12 +109,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     private var selectedCalendar = Calendar.getInstance()
 
-    fun setWeekSelection(calendar: Calendar) {
-        selectedCalendar = calendar
-        updateCurrentWeekAndMonth()
-    }
-
-
     fun filterDonationsByMonth(
         donations: List<MemberWithDonationData>,
         month: Int,
@@ -207,7 +199,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun moveToPreviousWeek() {
-        val lastWeekOfMonth = calendar.getActualMaximum(Calendar.WEEK_OF_MONTH)
         val currentWeek = calendar.get(Calendar.WEEK_OF_MONTH)
         val currentMonth = calendar.get(Calendar.MONTH)
 
@@ -216,7 +207,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
         if (currentWeek == 1 && currentMonth != newMonth) {
             // Jika berada di minggu pertama dalam bulan dan berpindah ke bulan sebelumnya
-            calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) // Atur tanggal ke akhir bulan sebelumnya
+            calendar.set(
+                Calendar.DAY_OF_MONTH,
+                calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+            ) // Atur tanggal ke akhir bulan sebelumnya
         }
 
         adjustWeeksIfDifferentMonths() // Memanggil adjustWeeksIfDifferentMonths() setelah perubahan minggu

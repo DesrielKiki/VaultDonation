@@ -1,7 +1,6 @@
 package com.desrielkiki.vaultdonation.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.Menu
@@ -18,7 +17,6 @@ import com.desrielkiki.vaultdonation.R
 import com.desrielkiki.vaultdonation.data.entity.DonationType
 import com.desrielkiki.vaultdonation.databinding.FragmentHomeBinding
 import com.desrielkiki.vaultdonation.ui.SharedViewModel
-import com.desrielkiki.vaultdonation.ui.donate.DonateViewModel
 import com.desrielkiki.vaultdonation.ui.member.MemberViewModel
 import com.desrielkiki.vaultdonation.ui.util.formatDate
 import java.text.SimpleDateFormat

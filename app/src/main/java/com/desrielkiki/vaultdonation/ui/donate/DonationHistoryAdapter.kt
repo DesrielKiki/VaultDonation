@@ -9,32 +9,36 @@ import com.desrielkiki.vaultdonation.data.entity.DonationType
 import com.desrielkiki.vaultdonation.data.entity.relation.MemberWithDonationData
 import com.desrielkiki.vaultdonation.data.helper.DonationCallback
 import com.desrielkiki.vaultdonation.databinding.RowDonationHistoryBinding
-import com.desrielkiki.vaultdonation.ui.SharedViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class DonationHistoryAdapter: RecyclerView.Adapter<DonationHistoryAdapter.HistoryViewHolder>() {
+class DonationHistoryAdapter : RecyclerView.Adapter<DonationHistoryAdapter.HistoryViewHolder>() {
 
     private var donationList = emptyList<MemberWithDonationData>()
 
-    class HistoryViewHolder(private val binding:RowDonationHistoryBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(memberWithDonationData: MemberWithDonationData){
+    class HistoryViewHolder(private val binding: RowDonationHistoryBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(memberWithDonationData: MemberWithDonationData) {
             binding.memberWithDonationData = memberWithDonationData
-            val formattedDate = customDateFormatFromString( memberWithDonationData.donationData.donationDate)
+            val formattedDate =
+                customDateFormatFromString(memberWithDonationData.donationData.donationDate)
             binding.tvDonationDate.text = formattedDate
-            binding.tvDonationType.text = memberWithDonationData.donationData.donationType.toString()
-            if (memberWithDonationData.donationData.donationType == DonationType.Both){
+            binding.tvDonationType.text =
+                memberWithDonationData.donationData.donationType.toString()
+            if (memberWithDonationData.donationData.donationType == DonationType.Both) {
                 val both = "Resource And GoldBar"
                 binding.tvDonationType.text = both
             }
             binding.executePendingBindings()
         }
-        companion object{
+
+        companion object {
             fun from(parent: ViewGroup): HistoryViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = RowDonationHistoryBinding.inflate(layoutInflater, parent, false)
                 return HistoryViewHolder(binding)
             }
+
             fun customDateFormatFromString(date: String): String {
                 val inputDateFormat = SimpleDateFormat("dd, MM, yyyy", Locale.getDefault())
                 val parsedDate = inputDateFormat.parse(date)
@@ -57,7 +61,8 @@ class DonationHistoryAdapter: RecyclerView.Adapter<DonationHistoryAdapter.Histor
         val currentDonation = donationList[position]
         holder.bind(currentDonation)
     }
-    fun setData(memberWithDonationData: List<MemberWithDonationData>){
+
+    fun setData(memberWithDonationData: List<MemberWithDonationData>) {
         val diffCallback = DonationCallback(donationList, memberWithDonationData)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         this.donationList = memberWithDonationData

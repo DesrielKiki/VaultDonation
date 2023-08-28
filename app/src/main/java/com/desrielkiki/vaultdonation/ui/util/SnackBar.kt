@@ -1,4 +1,5 @@
 package com.desrielkiki.vaultdonation.ui.util
+
 import android.view.View
 import com.desrielkiki.vaultdonation.ui.util.ConstantValue.SNACKBAR_DURATION
 import com.google.android.material.snackbar.Snackbar

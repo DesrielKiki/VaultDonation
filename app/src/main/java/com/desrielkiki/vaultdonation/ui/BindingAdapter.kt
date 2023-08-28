@@ -9,21 +9,24 @@ import com.desrielkiki.vaultdonation.ui.member.MemberFragmentDirections
 
 class BindingAdapter {
 
-    companion object{
+    companion object {
         @BindingAdapter("android:navigateToDetailMemberFromMember")
         @JvmStatic
-        fun navigateToDetailMemberFromMember(view: RelativeLayout, memberData: MemberData){
-            view.setOnClickListener{
-                val action = MemberFragmentDirections.actionMemberFragmentToMemberDetailFragment(memberData)
+        fun navigateToDetailMemberFromMember(view: RelativeLayout, memberData: MemberData) {
+            view.setOnClickListener {
+                val action =
+                    MemberFragmentDirections.actionMemberFragmentToMemberDetailFragment(memberData)
                 view.findNavController().navigate(action)
             }
 
         }
+
         @BindingAdapter("android:navigateToDetailMemberFromHome")
         @JvmStatic
-        fun navigateToDetailMemberFromHome(view: RelativeLayout, memberData: MemberData){
-            view.setOnClickListener{
-                val action = HomeFragmentDirections.actionHomeFragmentToMemberDetailFragment(memberData)
+        fun navigateToDetailMemberFromHome(view: RelativeLayout, memberData: MemberData) {
+            view.setOnClickListener {
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToMemberDetailFragment(memberData)
                 view.findNavController().navigate(action)
             }
         }
