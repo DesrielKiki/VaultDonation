@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="args"
+            type="com.desrielkiki.vaultdonation.ui.donate.DonateAddFragmentArgs" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_16sdp"
+        tools:context=".ui.donate.DonateAddFragment">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_8sdp"
+            android:background="@drawable/background_border_primary"
+            android:backgroundTint="@color/dark2">
+
+            <TextView
+                android:id="@+id/title_memberName"
+                style="@style/title12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{args.memberData.memberName}" />
+
+            <TextView
+                android:id="@+id/tv_currentDate"
+                android:layout_width="match_parent"
+                android:background="@drawable/background_shape_editext"
+                android:drawableStart="@drawable/ic_calendar"
+                android:layout_height="@dimen/_50sdp"
+                style="@style/editText"
+                android:textColor="@color/dark"
+                android:padding="@dimen/_16sdp"
+                android:layout_below="@id/title_memberName" />
+
+            <Spinner
+                android:id="@+id/sp_donationType"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@id/tv_currentDate"
+                android:text="Donation type"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_alignParentStart="true"
+                android:padding="@dimen/_4sdp"
+                android:entries="@array/donation_type"
+                android:autofillHints="Donation Type"
+                android:background="@drawable/background_shape_editext"
+                android:layout_alignParentEnd="true" />
+            <Button
+                android:id="@+id/btn_addDonate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/sp_donationType"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:text="Add Donation"
+                android:textAppearance="@style/title14"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

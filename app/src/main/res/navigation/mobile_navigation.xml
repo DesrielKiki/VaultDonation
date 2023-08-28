@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.desrielkiki.vaultdonation.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_memberDetailFragment"
+            app:destination="@id/memberDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/memberFragment"
+        android:name="com.desrielkiki.vaultdonation.ui.member.MemberFragment"
+        android:label="@string/title_member"
+        tools:layout="@layout/fragment_member" >
+        <action
+            android:id="@+id/action_memberFragment_to_memberDetailFragment"
+            app:destination="@id/memberDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.desrielkiki.vaultdonation.ui.about.AboutFragment"
+        android:label="@string/title_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/memberDetailFragment"
+        android:name="com.desrielkiki.vaultdonation.ui.member.MemberDetailFragment"
+        android:label="Member Detail"
+        tools:layout="@layout/fragment_member_detail" >
+        <argument
+            android:name="memberData"
+            app:argType="com.desrielkiki.vaultdonation.data.entity.MemberData" />
+        <action
+            android:id="@+id/action_memberDetailFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+        <action
+            android:id="@+id/action_memberDetailFragment_to_memberDonateFragment"
+            app:destination="@id/donateAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/donateAddFragment"
+        android:name="com.desrielkiki.vaultdonation.ui.donate.DonateAddFragment"
+        android:label="Add Donation"
+        tools:layout="@layout/fragment_donate_add" >
+        <action
+            android:id="@+id/action_memberDonateFragment_to_memberDetailFragment"
+            app:destination="@id/memberDetailFragment"
+            app:popUpToInclusive="true"/>
+        <argument
+            android:name="memberData"
+            app:argType="com.desrielkiki.vaultdonation.data.entity.MemberData" />
+        <action
+            android:id="@+id/action_memberDonateFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
+    </fragment>
+</navigation>

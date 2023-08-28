@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="memberData"
+            type="com.desrielkiki.vaultdonation.data.entity.MemberData" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/bg_member"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="10"
+        android:background="@drawable/background_border_field_grey"
+        android:layout_margin="@dimen/_2sdp">
+
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="wrap_content"
+            style="@style/title12"
+            android:paddingStart="@dimen/_4sdp"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/tv_memberName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_toEndOf="@id/tv_number"
+            android:paddingTop="@dimen/_4sdp"
+            android:paddingBottom="@dimen/_4sdp"
+            style="@style/title12"/>
+    </RelativeLayout>
+</layout>
