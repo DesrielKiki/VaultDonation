@@ -127,6 +127,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/bg_weekFilter"
                 android:layout_marginTop="@dimen/_8sdp" />
+            <ImageView
+                android:id="@+id/iv_noData"
+                android:layout_margin="@dimen/_100sdp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_below="@+id/bg_weekFilter"
+                android:src="@drawable/ic_no_data"/>
         </RelativeLayout>
     </RelativeLayout>
 </layout>

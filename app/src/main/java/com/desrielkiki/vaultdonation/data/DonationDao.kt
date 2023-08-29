@@ -86,7 +86,7 @@ interface DonationDao {
     @Query("SELECT * FROM table_member ORDER BY id ASC LIMIT :limit OFFSET :offset")
     fun getPagedList(limit: Int, offset: Int): LiveData<List<MemberData>>
 
-    @Query("SELECT * FROM table_member LIMIT :pageSize OFFSET :offset")
+    @Query("SELECT * FROM table_member ORDER BY memberName ASC LIMIT :pageSize OFFSET :offset")
     fun loadDataByPage(offset: Int, pageSize: Int): LiveData<List<MemberData>>
 
     @Query("SELECT * FROM table_member WHERE id NOT IN (SELECT memberId FROM table_donation WHERE donationDate BETWEEN :startOfWeek AND :endOfWeek) LIMIT :pageSize OFFSET :offset")

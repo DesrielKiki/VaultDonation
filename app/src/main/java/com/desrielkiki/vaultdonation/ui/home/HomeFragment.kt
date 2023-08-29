@@ -54,6 +54,9 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupViews()
+        memberViewModel.getAllMember.observe(viewLifecycleOwner, Observer { memberData ->
+            binding.tvTotalMembers.text = " ${memberData.size} members"
+        })
         return binding.root
     }
 
@@ -126,6 +129,42 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             val startOfMonth = calendar.time
             selectedStartWeekFormatted = formatDate(startOfMonth, "dd, MM, yyyy")
         }
+        memberViewModel.getAllMember.observe(viewLifecycleOwner, Observer { memberData ->
+            homeViewModel.getDonationForWeek(
+                selectedStartWeekFormatted,
+                selectedEndWeekFormatted).observe(viewLifecycleOwner, Observer { donationInWeek ->
+                val filteredDonations =
+                    sharedViewModel.filterDonationsByMonth(
+                        donationInWeek,
+                        selectedMonth
+                    )
+                memberIdsWithDonations.clear()
+                binding.tvTotalDonation.text = ("${filteredDonations.size} members")
+
+                for (donation in filteredDonations) {
+                    val memberId = donation.donationData.memberId
+                    val donationType = donation.donationData.donationType
+
+                    val existingDonationTypes =
+                        memberIdsWithDonations.getOrPut(memberId) { mutableSetOf() }
+                    existingDonationTypes.add(donationType)
+                }
+                val membersWithoutDesiredDonations = memberData.filter { member ->
+                    val memberId = member.id
+                    val donationTypes = memberIdsWithDonations[memberId]
+
+                    val hasBothDonation = donationTypes?.contains(DonationType.Both) == true
+                    val hasResourceAndGoldDonations =
+                        donationTypes?.contains(DonationType.Resource) == true &&
+                                donationTypes.contains(DonationType.GoldBar)
+
+                    !hasBothDonation && !hasResourceAndGoldDonations
+                }
+                val lackOfDonation = membersWithoutDesiredDonations.size
+                binding.tvNoDonation.text = "$lackOfDonation members"
+
+            })
+        })
         memberViewModel.loadPageData(currentPage, 24)
             .observe(viewLifecycleOwner, Observer { memberByPage ->
                 // Mendapatkan donasi dalam rentang minggu menggunakan ViewModel dan LiveData
@@ -162,6 +201,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
                             !hasBothDonation && !hasResourceAndGoldDonations
                         }
+                        sharedViewModel.emptyDatabaseView(membersWithoutDesiredDonations, binding.ivNoData)
                         homeMemberAdapter.setData(membersWithoutDesiredDonations, startNumber)
                     })
             })
@@ -340,6 +380,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         if (searchQuery != "%%") {
             // Lakukan pencarian dan tampilkan hasilnya
             memberViewModel.searchDatabase(searchQuery).observe(this, Observer { list ->
+                sharedViewModel.emptyDatabaseView(list, binding.ivNoData)
                 list?.let {
                     val filteredMembersWithoutDonations = list.filter { member ->
                         val memberId = member.id

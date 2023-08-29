@@ -1,6 +1,7 @@
 package com.desrielkiki.vaultdonation.ui.member
 
 import android.app.AlertDialog
+import android.graphics.drawable.GradientDrawable.Orientation
 import android.os.Bundle
 import android.util.Log
 import android.view.ActionMode
@@ -23,6 +24,7 @@ import com.desrielkiki.vaultdonation.R
 import com.desrielkiki.vaultdonation.data.entity.MemberData
 import com.desrielkiki.vaultdonation.databinding.BottomSheetMemberBinding
 import com.desrielkiki.vaultdonation.databinding.FragmentMemberBinding
+import com.desrielkiki.vaultdonation.ui.SharedViewModel
 import com.desrielkiki.vaultdonation.ui.util.MemberItemClickListener
 import com.desrielkiki.vaultdonation.ui.util.snackbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -39,6 +41,7 @@ class MemberFragment : Fragment(), SearchView.OnQueryTextListener, MemberItemCli
     private lateinit var bottomSheetMemberBinding: BottomSheetMemberBinding
 
     private val viewModel: MemberViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels()
     private var currentPage: Int = 0
     private lateinit var memberAdapter: MemberAdapter
 
@@ -61,7 +64,9 @@ class MemberFragment : Fragment(), SearchView.OnQueryTextListener, MemberItemCli
         _binding = FragmentMemberBinding.inflate(inflater, container, false)
         memberAdapter =
             MemberAdapter(memberItemClickListener ?: this, viewModel, findNavController())
-
+        viewModel.getAllMember.observe(viewLifecycleOwner, Observer { memberData ->
+            binding.tvTotalMembers.text = " ${memberData.size} members"
+        })
         /**
          * initiate on swipe gesture
          */
@@ -132,7 +137,7 @@ class MemberFragment : Fragment(), SearchView.OnQueryTextListener, MemberItemCli
     private fun getPageData() {
         viewModel.loadPageData(currentPage, 24)
             .observe(viewLifecycleOwner, Observer { memberByPage ->
-                // Menampilkan semua anggota tanpa filter
+                sharedViewModel.emptyDatabaseView(memberByPage, binding.ivNoData)
                 memberAdapter.setData(memberByPage, startNumber)
             })
     }
@@ -277,6 +282,7 @@ class MemberFragment : Fragment(), SearchView.OnQueryTextListener, MemberItemCli
         if (searchQuery != "%%") {
             // Lakukan pencarian dan tampilkan hasilnya
             viewModel.searchDatabase(searchQuery).observe(this, Observer { list ->
+                sharedViewModel.emptyDatabaseView(list, binding.ivNoData)
                 list?.let {
                     memberAdapter.setData(it, 1)
                 }

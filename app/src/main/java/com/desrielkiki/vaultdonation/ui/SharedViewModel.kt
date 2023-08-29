@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
@@ -19,6 +20,13 @@ import java.util.Date
 import java.util.Locale
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
+
+    fun <T> emptyDatabaseView(data: List<T>, view: ImageView) {
+        when (data.isEmpty()) {
+            true -> view.visibility = View.VISIBLE
+            else -> view.visibility = View.INVISIBLE
+        }
+    }
 
     val listener: AdapterView.OnItemSelectedListener = object :
         AdapterView.OnItemSelectedListener {
@@ -241,6 +249,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         val monthYear = dateFormat.format(date)
         return "$monthYear, Week $weekOfMonth"
     }
+
 }
 
 

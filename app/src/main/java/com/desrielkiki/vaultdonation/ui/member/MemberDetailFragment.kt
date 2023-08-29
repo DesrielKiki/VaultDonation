@@ -152,6 +152,7 @@ class MemberDetailFragment : Fragment() {
                 sharedViewModel.filterDonationsByMonth(donationData, selectedMonth)
 
             // Update RecyclerView with the filtered donation data
+            sharedViewModel.emptyDatabaseView(filteredDonations,binding.ivNoData )
             historyAdapter.setData(filteredDonations)
         })
     }
