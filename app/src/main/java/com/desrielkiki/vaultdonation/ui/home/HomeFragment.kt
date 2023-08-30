@@ -44,6 +44,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private var navToPreviousPage: Boolean = false
 
     private lateinit var gestureDetector: GestureDetector
+    private var totalMember: Int = 0
 
     private val memberIdsWithDonations = mutableMapOf<Long, MutableSet<DonationType>>()
 
@@ -55,6 +56,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupViews()
         memberViewModel.getAllMember.observe(viewLifecycleOwner, Observer { memberData ->
+            totalMember = memberData.size
             binding.tvTotalMembers.text = " ${memberData.size} members"
         })
         return binding.root
@@ -132,14 +134,14 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         memberViewModel.getAllMember.observe(viewLifecycleOwner, Observer { memberData ->
             homeViewModel.getDonationForWeek(
                 selectedStartWeekFormatted,
-                selectedEndWeekFormatted).observe(viewLifecycleOwner, Observer { donationInWeek ->
+                selectedEndWeekFormatted
+            ).observe(viewLifecycleOwner, Observer { donationInWeek ->
                 val filteredDonations =
                     sharedViewModel.filterDonationsByMonth(
                         donationInWeek,
                         selectedMonth
                     )
                 memberIdsWithDonations.clear()
-                binding.tvTotalDonation.text = ("${filteredDonations.size} members")
 
                 for (donation in filteredDonations) {
                     val memberId = donation.donationData.memberId
@@ -162,6 +164,8 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                 }
                 val lackOfDonation = membersWithoutDesiredDonations.size
                 binding.tvNoDonation.text = "$lackOfDonation members"
+                val totalDonation = totalMember - lackOfDonation
+                binding.tvTotalDonation.text = "$totalDonation members"
 
             })
         })
@@ -201,7 +205,10 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
                             !hasBothDonation && !hasResourceAndGoldDonations
                         }
-                        sharedViewModel.emptyDatabaseView(membersWithoutDesiredDonations, binding.ivNoData)
+                        sharedViewModel.emptyDatabaseView(
+                            membersWithoutDesiredDonations,
+                            binding.ivNoData
+                        )
                         homeMemberAdapter.setData(membersWithoutDesiredDonations, startNumber)
                     })
             })
@@ -262,19 +269,20 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                     }
                 }
         }
-  /*      val btnNextClickListener = View.OnClickListener {
-            navToNextPage = true
-            updatePageAndLoadData(currentPage + 24)
-        }
-        val btnPrevClickListener = View.OnClickListener {
-            if (currentPage >= 24) {
-                navToPreviousPage = true
-                updatePageAndLoadData(currentPage - 24)
-            }
-        }
-        binding.btnNext.setOnClickListener(btnNextClickListener)
-        binding.btnPrev.setOnClickListener(btnPrevClickListener)
-    */
+
+        /*      val btnNextClickListener = View.OnClickListener {
+                  navToNextPage = true
+                  updatePageAndLoadData(currentPage + 24)
+              }
+              val btnPrevClickListener = View.OnClickListener {
+                  if (currentPage >= 24) {
+                      navToPreviousPage = true
+                      updatePageAndLoadData(currentPage - 24)
+                  }
+              }
+              binding.btnNext.setOnClickListener(btnNextClickListener)
+              binding.btnPrev.setOnClickListener(btnPrevClickListener)
+          */
         fun swipeToNextPage() {
             navToNextPage = true
             updatePageAndLoadData(currentPage + 24)
